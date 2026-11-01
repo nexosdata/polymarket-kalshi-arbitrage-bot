@@ -23,7 +23,7 @@ $$\text{Gross Spread} = \$1.00 - (P_{\text{Polymarket, YES}} + P_{\text{Kalshi, 
 However, naive arbitrage bots fail in production because they ignore:
 1. **Kalshi's Quadratic Taker Fee**: Unlike linear crypto exchanges, Kalshi charges a non-linear fee curve $\lceil 0.07 \cdot C \cdot P \cdot (1 - P) \rceil$ that peaks at $P = 0.50$.
 2. **Wire Flight Latency & Quote Slippage**: Fills are never simultaneous. During the $15\text{ms} - 40\text{ms}$ transit window between Leg 1 fill and Leg 2 match, rival HFT market makers can lift Leg 2.
-3. **Unhedged Tail Risk**: Failing on Leg 2 leaves a naked directional exposure with $50\% - 90\%$ downside risk.
+3. **Unhedged Tail Risk**: Failing on Leg 2 leaves a naked directional exposure with 50% - 90% downside risk.
 
 **`polymarket-kalshi-arbitrage-bot`** is built from the ground up with institutional quantitative risk controls: closed-form quadratic fee breakeven solvers, synthetic latency models ($15\text{ms}-40\text{ms}$), depth consumption tracking, and an **Emergency Scratch Unwind Safeguard**.
 
@@ -33,25 +33,25 @@ However, naive arbitrage bots fail in production because they ignore:
 
 ```mermaid
 flowchart TD
-    subgraph Data Layer ["1. Real-Time Data Layer (NaxosData API)"]
+    subgraph DataLayer["1. Real-Time Data Layer (NaxosData API)"]
         NaxosAPI["NaxosData /api/v1/pairs & /api/v1/markets"]
         Scanner["ArbitrageScanner"]
         NaxosAPI -->|Synchronized L2 Books & Fungibility| Scanner
     end
 
-    subgraph Math Layer ["2. Quantitative Fee & Breakeven Solver"]
+    subgraph MathLayer["2. Quantitative Fee & Breakeven Solver"]
         Scanner -->|Active Quotes & Depths| MathSolver["src/math.ts"]
         MathSolver -->|Exact Kalshi Quadratic Fee| FeeCalc["ceil_cents(0.07 * C * P * (1-P))"]
         MathSolver -->|Closed-Form Root| Breakeven["solveBreakeven(P_1, ROI_target)"]
         MathSolver -->|Yield Metrics| APR["Annualized APR & APY Solver"]
     end
 
-    subgraph Sizing Layer ["3. Capital & Risk Sizing"]
+    subgraph SizingLayer["3. Capital & Risk Sizing"]
         MathSolver --> Filter["Spread & Fungibility Filter (Spread >= 1.0%, Fungibility >= 0.85)"]
         Filter --> Sizer["Position Sizer (Bankroll, Max Exposure, Book Depth)"]
     end
 
-    subgraph Execution Layer ["4. Dual-Leg Execution Engine (src/simulator.ts)"]
+    subgraph ExecutionLayer["4. Dual-Leg Execution Engine (src/simulator.ts)"]
         Sizer --> Leg1["Dispatch Leg 1 Order (Polymarket / Kalshi)"]
         Leg1 --> Wire1["Simulated Wire Transit: 15ms - 40ms"]
         Wire1 --> Ack1["Leg 1 ACK: Filled at Resting Ask"]
