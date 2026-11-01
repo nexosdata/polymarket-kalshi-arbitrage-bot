@@ -135,13 +135,13 @@ $$P_{2, \max} = \frac{1.07 - \sqrt{1.1449 - 0.28 K}}{0.14}$$
 The bot's solver (`solveBreakeven` in `src/math.ts`) derives the analytic root and validates it against discrete cent-by-cent rounding to guarantee zero budget violations.
 
 ### 3. Annualized Yield (APR & APY)
-For an arbitrage trade expiring in $D$ days with net return $\text{ROI}_{\%}$:
+For an arbitrage trade expiring in $D$ days with net percentage return $\text{ROI}$:
 
-$$\text{APR}_{\%} = \text{ROI}_{\%} \times \left(\frac{365}{\max(D, 1/24)}\right)$$
+$$\text{APR} = \text{ROI} \times \left(\frac{365}{\max(D, 1/24)}\right)$$
 
-$$\text{APY}_{\%} = \left(\left(1 + \frac{\text{ROI}_{\%}}{100}\right)^{\frac{365}{\max(D, 1/24)}} - 1\right) \times 100$$
+$$\text{APY} = \left(\left(1 + \frac{\text{ROI}}{100}\right)^{\frac{365}{\max(D, 1/24)}} - 1\right) \times 100$$
 
-A $1.5\%$ net spread on an event resolving in 14 days delivers an annualized APY of **$+47.4\%$**.
+A 1.5% net spread on an event resolving in 14 days delivers an annualized APY of **+47.4%**.
 
 ---
 
