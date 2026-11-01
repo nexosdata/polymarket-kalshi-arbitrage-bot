@@ -1,0 +1,66 @@
+{
+  "name": "polymarket-kalshi-arbitrage-bot",
+  "version": "1.0.0",
+  "description": "Production-ready, low-latency dual-leg cross-venue arbitrage bot between Polymarket and Kalshi powered by NaxosData API",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "bin": {
+    "polymarket-kalshi-arbitrage-bot": "./dist/cli.js",
+    "pka-bot": "./dist/cli.js"
+  },
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "build": "tsc -p tsconfig.json && chmod +x dist/cli.js",
+    "typecheck": "tsc --noEmit",
+    "test": "node --test test/*.test.mjs",
+    "start": "node dist/cli.js",
+    "start:dry": "node dist/cli.js --dry-run",
+    "prepublishOnly": "npm run build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nexosdata/polymarket-kalshi-arbitrage-bot.git"
+  },
+  "keywords": [
+    "polymarket arbitrage bot",
+    "kalshi arbitrage",
+    "prediction market arbitrage",
+    "dual leg arbitrage",
+    "polymarket",
+    "kalshi",
+    "naxosdata",
+    "cross-venue arbitrage",
+    "hft",
+    "market-making",
+    "orderbook-arbitrage",
+    "usdc",
+    "quantitative-finance"
+  ],
+  "author": "NaxosData <team@naxosdata.com>",
+  "contributors": [
+    "William Gonda <gonda.v@gjh.sk>"
+  ],
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/nexosdata/polymarket-kalshi-arbitrage-bot/issues"
+  },
+  "homepage": "https://naxosdata.com",
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.0",
+    "typescript": "^5.4.0"
+  }
+}
